@@ -163,12 +163,6 @@ Form.prototype = {
     get constraintClassesInvalid() {
         return Form.constraintNames.map( n => `.invalid-${n}` );
     },
-    get constraintAttributes() {
-        return Form.constraintNames.map( n => `data-${n}` );
-    },
-    get constraintMessages() {
-        return Form.constraintNames.map( n => `or-${n}-msg` );
-    },
     /**
      * @type {Array<string>}
      */
