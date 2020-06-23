@@ -160,8 +160,17 @@ Form.prototype = {
     get id() {
         return this.view.html.id;
     },
+    /**
+     * @type {Array<string>}
+     */
     get constraintClassesInvalid() {
         return Form.constraintNames.map( n => `.invalid-${n}` );
+    },
+    /**
+     * @type {Array<string>}
+     */
+    get constraintAttributes() {
+        return Form.constraintNames.map( n => `data-${n}` );
     },
     /**
      * @type {Array<string>}
