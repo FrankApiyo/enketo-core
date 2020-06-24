@@ -573,7 +573,7 @@ Form.prototype.filterRadioCheckSiblings = controls => {
         const wrapper = control.type === 'radio' || control.type === 'checkbox' ? closestAncestorUntil( control, '.option-wrapper', '.question' ) : null;
         // Filter out duplicate radiobuttons and checkboxes
         if ( wrapper ) {
-            if ( wrappers.indexOf( wrapper ) !== -1 ) {
+            if ( wrappers.includes( wrapper ) ) {
                 return false;
             }
             wrappers.push( wrapper );
@@ -686,13 +686,9 @@ Form.prototype.grosslyViolateStandardComplianceByIgnoringCertainCalcs = function
  *
  * @param {UpdatedDataNodes} updated - object that contains information on updated nodes
  */
-Form.prototype.validationUpdate = function( updated ) {
-    let $nodes;
-    const that = this;
-    let upd;
-
+Form.prototype.validationUpdate = function( updated = {} ) {
     if ( config.validateContinuously === true ) {
-        upd = updated || {};
+        let upd = { ...updated };
         if ( updated.cloned ) {
             /*
              * We don't want requireds and constraints of questions in a newly created
@@ -707,13 +703,11 @@ Form.prototype.validationUpdate = function( updated ) {
             };
         }
 
-        // Find all inputs that have a dependency on the changed node.
-        $nodes = this.getRelatedNodes( 'data-required', '', upd );
-        this.constraintAttributes.forEach( attr => $nodes = $nodes.add( this.getRelatedNodes( attr, '', upd ) ) );
+        // Find all inputs that have a dependency on the changed node. Avoid duplicates with Set.
+        const nodes = new Set( this.getRelatedNodes( 'data-required', '', upd ).get() );
+        this.constraintAttributes.forEach( attr => this.getRelatedNodes( attr, '', upd ).get().forEach( nodes.add, nodes ) );
 
-        $nodes.each( function() {
-            that.validateInput( this );
-        } );
+        nodes.forEach( this.validateInput, this );
     }
 };
 
