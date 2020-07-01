@@ -69,7 +69,8 @@ document.querySelector( '#validate-form' ).addEventListener( 'click', () => {
 function initializeForm() {
     const formEl = document.querySelector( 'form.or' );
     form = new Form( formEl, {
-        modelStr: modelStr
+        modelStr: modelStr,
+        instanceStr: new DOMParser().parseFromString( modelStr, 'text/xml' ).querySelector( 'model > instance' ).innerHTML
     }, {
         'printRelevantOnly': false
     } );
