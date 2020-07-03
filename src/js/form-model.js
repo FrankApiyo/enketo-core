@@ -360,6 +360,19 @@ FormModel.prototype.mergeXml = function( recordStr ) {
     record = parser.parseFromString( recordStr, 'text/xml' );
 
     /**
+     * Insert missing relevant nodes
+     */
+    //get the parent element of the relevant node
+    //get node that comes before this relevant node in template elements
+    // get all the parent elements of the nodes in the record
+    // var relevantParents = record.querySelectorAll("repeat111");
+    //check if one of it's children is the relevant node, and if not then
+    // insert the relevant node after the node above for each parent element
+
+    // repeat for all relevant node
+    // - we need to first find all relevant nodes
+
+    /**
      * Normally records will not contain the special "jr:template" attribute. However, we should still be able to deal with
      * this if they do, including the old hacked non-namespaced "template" attribute.
      * https://github.com/enketo/enketo-core/issues/376
@@ -1221,8 +1234,6 @@ FormModel.prototype.convertPullDataFn = function( expr, selector, index ) {
 FormModel.prototype.evaluate = function( expr, resTypeStr, selector, index, tryNative ) {
     let j, context, doc, resTypeNum, resultTypes, result, collection, response, repeats, cacheKey, original, cacheable;
 
-    // console.debug( 'evaluating expr: ' + expr + ' with context selector: ' + selector + ', 0-based index: ' +
-    //    index + ' and result type: ' + resTypeStr );
     original = expr;
     tryNative = tryNative || false;
     resTypeStr = resTypeStr || 'any';
