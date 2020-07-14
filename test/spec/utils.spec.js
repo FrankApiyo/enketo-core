@@ -1,4 +1,4 @@
-import * as utils from '../../src/js/utils';
+import utils from '../../src/js/utils';
 
 describe( 'Parsing expressions', () => {
     const t = [
