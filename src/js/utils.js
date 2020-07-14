@@ -7,7 +7,7 @@
 let cookies;
 
 /**
- * Parses an Expression to extract all function calls and theirs argument arrays.
+ * Parses an Expression to extract all function calls and their argument arrays.
  *
  * @static
  * @param {string} expr - The expression to search
@@ -256,7 +256,8 @@ function resizeImage( file, maxPixels ) {
     } );
 }
 
-export {
+// To facilitate overriding, we don't use named exports
+export default {
     parseFunctionFromExpression,
     stripQuotes,
     getFilename,
@@ -268,3 +269,6 @@ export {
     updateDownloadLink,
     resizeImage
 };
+
+
+

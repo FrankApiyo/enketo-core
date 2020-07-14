@@ -11,7 +11,7 @@
 
 import $ from 'jquery';
 
-import { getFilename, dataUriToBlobSync } from './utils';
+import utils from './utils';
 const fileManager = {};
 import { t } from 'enketo/translator';
 const URL_RE = /[a-zA-Z0-9+-.]+?:\/\//;
@@ -140,7 +140,7 @@ fileManager.getCurrentFiles = () => {
             canvas = $( this ).closest( '.question' )[ 0 ].querySelector( '.draw-widget canvas' );
             if ( canvas && !URL_RE.test( this.value ) ) {
                 // TODO: In the future, we could simply do canvas.toBlob() instead
-                file = dataUriToBlobSync( canvas.toDataURL() );
+                file = utils.dataUriToBlobSync( canvas.toDataURL() );
                 file.name = this.value;
             }
         }
@@ -149,11 +149,11 @@ fileManager.getCurrentFiles = () => {
             // First create a clone, because the name property is immutable
             // TODO: in the future, when browser support increase we can invoke
             // the File constructor to do this.
-            newFilename = getFilename( file, this.dataset.filenamePostfix );
+            newFilename = utils.getFilename( file, this.dataset.filenamePostfix );
 
             // If file is resized, get Blob representation of data URI
             if ( this.dataset.resized && this.dataset.resizedDataURI ) {
-                file = dataUriToBlobSync( this.dataset.resizedDataURI );
+                file = utils.dataUriToBlobSync( this.dataset.resizedDataURI );
             }
             file = new Blob( [ file ], {
                 type: file.type

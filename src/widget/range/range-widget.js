@@ -1,5 +1,5 @@
 import Widget from '../../js/widget';
-import { isNumber } from '../../js/utils';
+import utils from '../../js/utils';
 import events from '../../js/event';
 
 /**
@@ -162,7 +162,7 @@ class RangeWidget extends Widget {
     update() {
         const value = this.element.value;
 
-        if ( isNumber( value ) ) {
+        if ( utils.isNumber( value ) ) {
             this.value = value;
             this.range.dispatchEvent( events.Change() );
         } else {
@@ -175,9 +175,9 @@ class RangeWidget extends Widget {
      */
     get props() {
         const props = this._props;
-        const min = isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
-        const max = isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 10;
-        const step = isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1;
+        const min = utils.isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
+        const max = utils.isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 10;
+        const step = utils.isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1;
         const distress = props.appearances.includes( 'distress' );
 
         props.min = Number( min );

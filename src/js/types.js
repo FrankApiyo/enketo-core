@@ -4,7 +4,7 @@
  * @module types
  */
 
-import { isNumber } from './utils';
+import utils from './utils';
 import { time } from './format';
 
 /**
@@ -134,7 +134,7 @@ const types = {
          * @return {string} converted value
          */
         convert( x ) {
-            if ( isNumber( x ) ) {
+            if ( utils.isNumber( x ) ) {
                 // The XPath expression "2012-01-01" + 2 returns a number of days in XPath.
                 const date = new Date( x * 24 * 60 * 60 * 1000 );
 
@@ -175,7 +175,7 @@ const types = {
         convert( x ) {
             let date = 'Invalid Date';
             const parts = x.split( 'T' );
-            if ( isNumber( x ) ) {
+            if ( utils.isNumber( x ) ) {
                 // The XPath expression "2012-01-01T01:02:03+01:00" + 2 returns a number of days in XPath.
                 date = new Date( x * 24 * 60 * 60 * 1000 );
             } else if ( /[0-9]T[0-9]/.test( x ) && parts.length === 2 ) {

@@ -1,5 +1,5 @@
 import Widget from '../../js/widget';
-import { isNumber } from '../../js/utils';
+import utils from '../../js/utils';
 
 /**
  * Thousands separator widget.
@@ -12,7 +12,7 @@ class ThousandsSeparatorWidget extends Widget {
     }
 
     /**
-     * Initialize 
+     * Initialize
      */
     _init() {
         const fragment = document.createRange().createContextualFragment( '<div class="widget "></div>' );
@@ -34,7 +34,7 @@ class ThousandsSeparatorWidget extends Widget {
     }
 
     /**
-     * Obtain the current value from the widget. 
+     * Obtain the current value from the widget.
      *
      * @type {string}
      */
@@ -50,7 +50,7 @@ class ThousandsSeparatorWidget extends Widget {
     set value( value ) {
         let displayValue = '';
 
-        if ( isNumber( value ) ) {
+        if ( utils.isNumber( value ) ) {
             displayValue = Number( value ).toLocaleString( undefined, { maximumFractionDigits: 20 } );
         }
 
