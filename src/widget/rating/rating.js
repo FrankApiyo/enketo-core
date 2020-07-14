@@ -1,5 +1,5 @@
 import Widget from '../../js/widget';
-import utils from '../../js/utils';
+import { isNumber } from '../../js/utils';
 import events from '../../js/event';
 
 /**
@@ -78,7 +78,7 @@ class RatingWidget extends Widget {
      */
     update() {
         const value = this.element.value;
-        if ( utils.isNumber( value ) ) {
+        if ( isNumber( value ) ) {
             this.stars.forEach( ( star ) => {
                 if ( star.value === value ) {
                     star.checked = true;
@@ -106,9 +106,9 @@ class RatingWidget extends Widget {
      */
     get props() {
         const props = this._props;
-        const min = utils.isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
-        const max = utils.isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 10;
-        const step = utils.isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1;
+        const min = isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
+        const max = isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 10;
+        const step = isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1;
 
         props.min = Number( min );
         props.max = Number( max );

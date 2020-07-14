@@ -4,7 +4,7 @@
  * @module itemset
  */
 
-import utils from './utils';
+import { parseFunctionFromExpression } from './utils';
 import dialog from 'enketo/dialog';
 import { closestAncestorUntil, getChildren, getSiblingElements, elementDataStore as data } from './dom-utils';
 import events from './event';
@@ -112,7 +112,7 @@ export default {
             let labelRef = labelsContainer.dataset.labelRef;
             // TODO: if translate() becomes official, move determination of labelType to enketo-xslt
             // and set labelRef correct in enketo-xslt
-            const matches = utils.parseFunctionFromExpression( labelRef, 'translate' );
+            const matches = parseFunctionFromExpression( labelRef, 'translate' );
             if ( matches.length ) {
                 labelRef = matches[ 0 ][ 1 ][ 0 ];
                 labelType = 'langs';

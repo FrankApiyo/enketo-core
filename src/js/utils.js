@@ -198,22 +198,6 @@ function getPasteData( event ) {
 }
 
 /**
- * Update a HTML anchor to serve as a download or reset it if an empty objectUrl is provided.
- *
- * @static
- * @param {HTMLElement} anchor - The anchor element
- * @param {string} objectUrl - The objectUrl to download
- * @param {string} fileName - The filename of the file
- */
-function updateDownloadLink( anchor, objectUrl, fileName ) {
-    if ( window.updateDownloadLinkIe11 ) {
-        return window.updateDownloadLinkIe11( ...arguments );
-    }
-    anchor.setAttribute( 'href', objectUrl || '' );
-    anchor.setAttribute( 'download', fileName || '' );
-}
-
-/**
  * @static
  * @param {File} file - Image file to be resized
  * @param {number} maxPixels - Maximum pixels of resized image
@@ -256,8 +240,7 @@ function resizeImage( file, maxPixels ) {
     } );
 }
 
-// To facilitate overriding, we don't use named exports
-export default {
+export {
     parseFunctionFromExpression,
     stripQuotes,
     getFilename,
@@ -266,9 +249,5 @@ export default {
     readCookie,
     dataUriToBlobSync,
     getPasteData,
-    updateDownloadLink,
     resizeImage
 };
-
-
-

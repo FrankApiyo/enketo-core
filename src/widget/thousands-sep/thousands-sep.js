@@ -1,5 +1,5 @@
 import Widget from '../../js/widget';
-import utils from '../../js/utils';
+import { isNumber } from '../../js/utils';
 
 /**
  * Thousands separator widget.
@@ -50,7 +50,7 @@ class ThousandsSeparatorWidget extends Widget {
     set value( value ) {
         let displayValue = '';
 
-        if ( utils.isNumber( value ) ) {
+        if ( isNumber( value ) ) {
             displayValue = Number( value ).toLocaleString( undefined, { maximumFractionDigits: 20 } );
         }
 

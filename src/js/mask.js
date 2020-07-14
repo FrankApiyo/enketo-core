@@ -2,7 +2,7 @@
  * @module mask
  */
 
-import utils from './utils';
+import { getPasteData } from './utils';
 const KEYBOARD_CUT_PASTE = 'xvc';
 
 export default {
@@ -39,7 +39,7 @@ export default {
 
         form.addEventListener( 'paste', event => {
             if ( event.target.matches( selector ) ){
-                const val = utils.getPasteData( event );
+                const val = getPasteData( event );
                 // HTML number input fields will trim the pasted value automatically.
                 if ( val && validRegex.test( val.trim() ) ) {
                 // Note that event.target.value will be empty if the pasted value is not a valid number (except in IE11).

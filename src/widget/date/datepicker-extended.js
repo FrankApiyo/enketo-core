@@ -2,7 +2,7 @@ import Widget from '../../js/widget';
 import support from '../../js/support';
 import $ from 'jquery';
 import types from '../../js/types';
-import utils from '../../js/utils';
+import { isNumber, getPasteData } from '../../js/utils';
 import 'bootstrap-datepicker';
 import '../../js/dropdown.jquery';
 
@@ -84,13 +84,13 @@ class DatepickerExtended extends Widget {
 
         $fakeDateI.on( 'change paste', e => {
             let convertedValue = '';
-            let value = e.type === 'paste' ? utils.getPasteData( e ) : this.value;
+            let value = e.type === 'paste' ? getPasteData( e ) : this.value;
 
             if ( value.length > 0 ) {
                 // Note: types.date.convert considers numbers to be a number of days since the epoch
                 // as this is what the XPath evaluator may return.
                 // For user-entered input, we want to consider a Number value to be incorrect, expect for year input.
-                if ( utils.isNumber( value ) && settings.format !== 'yyyy' ) {
+                if ( isNumber( value ) && settings.format !== 'yyyy' ) {
                     convertedValue = '';
                 } else {
                     value = this._toActualDate( value );

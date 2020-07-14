@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import Widget from '../../js/widget';
 import fileManager from 'enketo/file-manager';
-import utils from '../../js/utils';
+import { getFilename, resizeImage, isNumber } from '../../js/utils';
+import downloadUtils from '../../js/download-utils';
 import events from '../../js/event';
 import { t } from 'enketo/translator';
 import TranslatedError from '../../js/translated-error';
@@ -159,7 +160,7 @@ class Filepicker extends Widget {
                 file = event.target.files[ 0 ];
                 postfix = `-${now.getHours()}_${now.getMinutes()}_${now.getSeconds()}`;
                 event.target.dataset.filenamePostfix = postfix;
-                fileName = utils.getFilename( file, postfix );
+                fileName = getFilename( file, postfix );
 
                 // Process the file
                 // Resize the file. Currently will resize an image.
@@ -298,7 +299,7 @@ class Filepicker extends Widget {
 
             // file is image, resize it
             if ( this.props && this.props.maxPixels ) {
-                utils.resizeImage( file, this.props.maxPixels )
+                resizeImage( file, this.props.maxPixels )
                     .then( blob => {
                         const reader = new FileReader();
                         reader.addEventListener( 'load', function() {
@@ -320,7 +321,7 @@ class Filepicker extends Widget {
      * @param {string} fileName - filename
      */
     _updateDownloadLink( objectUrl, fileName ) {
-        utils.updateDownloadLink( this.downloadLink, objectUrl, fileName );
+        downloadUtils.updateDownloadLink( this.downloadLink, objectUrl, fileName );
     }
 
     /**
@@ -346,7 +347,7 @@ class Filepicker extends Widget {
         const props = this._props;
         props.mediaType = this.element.getAttribute( 'accept' );
 
-        if ( this.element.dataset.maxPixels && utils.isNumber( this.element.dataset.maxPixels ) ) {
+        if ( this.element.dataset.maxPixels && isNumber( this.element.dataset.maxPixels ) ) {
             props.maxPixels = parseInt( this.element.dataset.maxPixels, 10 );
         }
 

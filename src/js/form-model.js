@@ -1,5 +1,5 @@
 import MergeXML from 'mergexml/mergexml';
-import utils from './utils';
+import { readCookie, parseFunctionFromExpression, stripQuotes } from './utils';
 import $ from 'jquery';
 import { getSiblingElementsAndSelf, getXPath, getRepeatIndex, hasPreviousCommentSiblingWithContent, hasPreviousSiblingElementSameName } from './dom-utils';
 import FormLogicError from './form-logic-error';
@@ -238,7 +238,7 @@ FormModel.prototype.createSession = function( id, sessObj ) {
 
     // fixed: /sesssion/context properties
     fixedProps.forEach( prop => {
-        sessObj[ prop ] = sessObj[ prop ] || utils.readCookie( `__enketo_meta_${prop}` ) || `${prop} not found`;
+        sessObj[ prop ] = sessObj[ prop ] || readCookie( `__enketo_meta_${prop}` ) || `${prop} not found`;
     } );
 
     session = parser.parseFromString( `<session><context>${fixedProps.map( prop => `<${prop}>${sessObj[ prop ]}</${prop}>` ).join( '' )}</context></session>`, 'text/xml' ).documentElement;
@@ -1051,7 +1051,7 @@ FormModel.prototype.replaceInstanceFn = function( expr ) {
     let prefix;
     const that = this;
 
-    // TODO: would be more consistent to use utils.parseFunctionFromExpression() and utils.stripQuotes
+    // TODO: would be more consistent to use utls.parseFunctionFromExpression() and utils.stripQuotes
     return expr.replace( INSTANCE, ( match, quote, id ) => {
         prefix = `/model/instance[@id="${id}"]`;
         // check if referred instance exists in model
@@ -1090,7 +1090,7 @@ FormModel.prototype.replaceCurrentFn = ( expr, contextSelector ) => {
  */
 FormModel.prototype.replaceIndexedRepeatFn = function( expr, selector, index ) {
     const that = this;
-    const indexedRepeats = utils.parseFunctionFromExpression( expr, 'indexed-repeat' );
+    const indexedRepeats = parseFunctionFromExpression( expr, 'indexed-repeat' );
 
     indexedRepeats.forEach( indexedRepeat => {
         let i, positionedPath;
@@ -1126,7 +1126,7 @@ FormModel.prototype.replaceIndexedRepeatFn = function( expr, selector, index ) {
 FormModel.prototype.replaceVersionFn = function( expr ) {
     const that = this;
     let version;
-    const versions = utils.parseFunctionFromExpression( expr, 'version' );
+    const versions = parseFunctionFromExpression( expr, 'version' );
 
     versions.forEach( versionPart => {
         version = version || that.evaluate( '/node()/@version', 'string', null, 0, true );
@@ -1167,7 +1167,7 @@ FormModel.prototype.replacePullDataFn = function( expr, selector, index ) {
  */
 FormModel.prototype.convertPullDataFn = function( expr, selector, index ) {
     const that = this;
-    const pullDatas = utils.parseFunctionFromExpression( expr, 'pulldata' );
+    const pullDatas = parseFunctionFromExpression( expr, 'pulldata' );
     const replacements = {};
 
     if ( !pullDatas.length ) {
@@ -1182,8 +1182,8 @@ FormModel.prototype.convertPullDataFn = function( expr, selector, index ) {
         if ( params.length === 4 ) {
 
             // strip quotes
-            params[ 1 ] = utils.stripQuotes( params[ 1 ] );
-            params[ 2 ] = utils.stripQuotes( params[ 2 ] );
+            params[ 1 ] = stripQuotes( params[ 1 ] );
+            params[ 2 ] = stripQuotes( params[ 2 ] );
 
             // TODO: the 2nd and 3rd parameter could probably also be expressions.
 

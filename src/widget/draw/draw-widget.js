@@ -9,7 +9,8 @@ import fileManager from 'enketo/file-manager';
 import SignaturePad from 'signature_pad';
 import { t } from 'enketo/translator';
 import dialog from 'enketo/dialog';
-import utils from '../../js/utils';
+import { dataUriToBlobSync, getFilename } from '../../js/utils';
+import downloadUtils from '../../js/download-utils';
 const DELAY = 1500;
 
 /**
@@ -438,10 +439,10 @@ class DrawWidget extends Widget {
      */
     _updateDownloadLink( url ) {
         if ( url && url.indexOf( 'data:' ) === 0 ) {
-            url = URL.createObjectURL( utils.dataUriToBlobSync( url ) );
+            url = URL.createObjectURL( dataUriToBlobSync( url ) );
         }
-        const fileName = url ? utils.getFilename( { name: this.element.value }, this.element.dataset.filenamePostfix ) : '';
-        utils.updateDownloadLink( this.$widget.find( '.btn-download' )[ 0 ], url, fileName );
+        const fileName = url ? getFilename( { name: this.element.value }, this.element.dataset.filenamePostfix ) : '';
+        downloadUtils.updateDownloadLink( this.$widget.find( '.btn-download' )[ 0 ], url, fileName );
     }
 
     /**

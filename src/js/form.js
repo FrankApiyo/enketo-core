@@ -1,6 +1,6 @@
 import { FormModel } from './form-model';
 import $ from 'jquery';
-import utils from './utils';
+import { toArray, parseFunctionFromExpression, stripQuotes, getFilename } from './utils';
 import { getXPath, closestAncestorUntil } from './dom-utils';
 import { t } from 'enketo/translator';
 import config from 'enketo/config';
@@ -282,7 +282,7 @@ Form.prototype.init = function() {
         this.options.input = this.input;
         this.options.pathToAbsolute = this.pathToAbsolute.bind( this );
         this.options.evaluate = this.model.evaluate.bind( this.model );
-        this.options.formClasses = utils.toArray( this.view.html.classList );
+        this.options.formClasses = toArray( this.view.html.classList );
         this.options.getModelValue = this.getModelValue.bind( this );
         this.widgetsInitialized = this.widgets.init( null, this.options );
 
@@ -387,7 +387,7 @@ Form.prototype.resetView = function() {
  */
 Form.prototype.replaceChoiceNameFn = function( expr, resTypeStr, context, index, tryNative ) {
     const that = this;
-    const choiceNames = utils.parseFunctionFromExpression( expr, 'jr:choice-name' );
+    const choiceNames = parseFunctionFromExpression( expr, 'jr:choice-name' );
 
     choiceNames.forEach( choiceName => {
         const params = choiceName[ 1 ];
@@ -395,7 +395,7 @@ Form.prototype.replaceChoiceNameFn = function( expr, resTypeStr, context, index,
         if ( params.length === 2 ) {
             let label = '';
             const value = that.model.evaluate( params[ 0 ], resTypeStr, context, index, tryNative );
-            const name = utils.stripQuotes( params[ 1 ] ).trim();
+            const name = stripQuotes( params[ 1 ] ).trim();
             const $input = that.view.$.find( `[name="${name}"]` );
 
             if ( !value ) {
@@ -744,10 +744,10 @@ Form.prototype.setEventHandlers = function() {
 
             // set file input values to the uniqified actual name of file (without c://fakepath or anything like that)
             if ( n.val.length > 0 && n.inputType === 'file' && input.files[ 0 ] && input.files[ 0 ].size > 0 ) {
-                n.val = utils.getFilename( input.files[ 0 ], input.dataset.filenamePostfix );
+                n.val = getFilename( input.files[ 0 ], input.dataset.filenamePostfix );
             }
             if ( n.val.length > 0 && n.inputType === 'drawing' ) {
-                n.val = utils.getFilename( {
+                n.val = getFilename( {
                     name: n.val
                 }, input.dataset.filenamePostfix );
             }

@@ -1,5 +1,5 @@
 import RangeWidget from '../../widget/range/range-widget';
-import utils from '../../js/utils';
+import { isNumber } from '../../js/utils';
 import support from '../../js/support';
 import events from '../../js/event';
 
@@ -133,9 +133,9 @@ class AnalogScaleWidget extends RangeWidget {
     get props() {
         const props = this._props;
         props.touch = support.touch;
-        props.min = utils.isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
-        props.max = utils.isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 100;
-        props.step = utils.isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1; //( props.type === 'decimal' ? 0.1 : 1 );
+        props.min = isNumber( this.element.getAttribute( 'min' ) ) ? this.element.getAttribute( 'min' ) : 0;
+        props.max = isNumber( this.element.getAttribute( 'max' ) ) ? this.element.getAttribute( 'max' ) : 100;
+        props.step = isNumber( this.element.getAttribute( 'step' ) ) ? this.element.getAttribute( 'step' ) : 1; //( props.type === 'decimal' ? 0.1 : 1 );
         props.vertical = !props.appearances.includes( 'horizontal' );
         props.ticks = !props.appearances.includes( 'no-ticks' );
         props.maxTicks = 10;
